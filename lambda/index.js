@@ -12,7 +12,7 @@ const LaunchRequestHandler = {
         const repromptText = 'Mine is';
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(repromptText)
+            //.reprompt(repromptText)
             .getResponse();
     }
 };
