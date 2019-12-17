@@ -8,32 +8,33 @@ const LaunchRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Hello! Welcome to cake walk. What is your birthday?';
-        const repromptText = 'Mine is';
+        const speakOutput = 'Hello! This is Cake walk. What is your birthday?';
+        const repromptText = 'I was born Nov. 6th, 2014. When were you born?';
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            //.reprompt(repromptText)
+            .reprompt(repromptText)
             .getResponse();
     }
 };
+
 const CaptureBirthdayIntentHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'CaptureBirthdayIntent';
     },
     handle(handlerInput) {
+        const year = handlerInput.requestEnvelope.request.intent.slots.year.value;
         const month = handlerInput.requestEnvelope.request.intent.slots.month.value;
         const day = handlerInput.requestEnvelope.request.intent.slots.day.value;
-        const year = handlerInput.requestEnvelope.request.intent.slots.year.value;
-        
-        const speakOutput = `Great! I'll remember your birthday is ${month} ${day}, ${year}`;
-        
+            
+        const speakOutput = `Thanks, I'll remember that you were born ${month} ${day} ${year}.`;
         return handlerInput.responseBuilder
             .speak(speakOutput)
             //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
             .getResponse();
     }
 };
+
 const HelpIntentHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
@@ -108,13 +109,14 @@ const ErrorHandler = {
     }
 };
 
+
 // The SkillBuilder acts as the entry point for your skill, routing all request and response
 // payloads to the handlers above. Make sure any new handlers or interceptors you've
 // defined are included below. The order matters - they're processed top to bottom.
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
-        HelloWorldIntentHandler,
+        CaptureBirthdayIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         SessionEndedRequestHandler,
