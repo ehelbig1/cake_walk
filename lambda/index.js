@@ -115,6 +115,9 @@ const ErrorHandler = {
 // payloads to the handlers above. Make sure any new handlers or interceptors you've
 // defined are included below. The order matters - they're processed top to bottom.
 exports.handler = Alexa.SkillBuilders.custom()
+    .withPersistenceAdapter(
+        new persistenceAdapter.S3PersistenceAdapter({bucketName:process.env.S3_PERSISTENCE_BUCKET})
+    )
     .addRequestHandlers(
         LaunchRequestHandler,
         CaptureBirthdayIntentHandler,
