@@ -27,7 +27,7 @@ const HasBirthdayLaunchRequestHandler = {
         const month = sessionAttributes.hasOwnProperty('month') ? sessionAttributes.year : 0;
         const day = sessionAttributes.hasOwnProperty('day') ? sessionAttributes.year : 0;
         
-        return handlerInput.requestEnvelope.requestEnvelope.request.type === 'LaunchRequest'
+        return handlerInput.requestEnvelope.request.type === 'LaunchRequest'
             && year && month && day;
     },
     handle(handlerInput) {
