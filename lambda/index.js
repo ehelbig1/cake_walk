@@ -5,6 +5,20 @@ const Alexa = require('ask-sdk-core');
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
+    },
+    handle(handlerInput) {
+        const speakOutput = "Hi, I'm CakeWalk. What is your birthday";
+        const repromptText = "My birthday is November 6th, 2014. What is yours?";
+        
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt(repromptText)
+            .getResponse();
+    }
+};
+const CaptureBirthdayIntentHandler = {
+    canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'CaptureBirthdayIntent';
     },
@@ -14,17 +28,6 @@ const LaunchRequestHandler = {
         const year = handlerInput.requestEnvelope.request.intent.slots.year.value;
         
         const speakOutput = `Thanks, I'll remember that your birthday is ${month} ${day}, ${year}`;
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .getResponse();
-    }
-};
-const CaptureBirthdayIntentHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'CaptureBirthdayIntent';
-    },
-    handle(handlerInput) {
-        const speakOutput = ``;
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .getResponse();
