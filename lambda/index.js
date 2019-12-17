@@ -8,10 +8,11 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Hello! Welcome to Cake Walk. That was a piece of cake! Bye!';
+        const speakOutput = 'Hello! I am CakeWalk. What is your birthday?';
+        const repromptText = 'I was born Nov. 6th, 2014. When were you born?'
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            // .reprompt(speakOutput)
+            .reprompt(repromptText)
             .getResponse();
     }
 };
