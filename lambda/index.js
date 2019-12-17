@@ -18,15 +18,55 @@ const LaunchRequestHandler = {
     }
 };
 
+const HasBirthdayLaunchRequestHandler = {
+    canHandle(handlerInput) {
+        const attributesManager = handlerInput.attributesManager;
+        const sessionAttributes = attributesManager.getSessionAttributes() || {};
+        
+        const year = sessionAttributes.hasOwnProperty('year') ? sessionAttributes.year : 0;
+        const month = sessionAttributes.hasOwnProperty('month') ? sessionAttributes.year : 0;
+        const day = sessionAttributes.hasOwnProperty('day') ? sessionAttributes.year : 0;
+        
+        return handlerInput.requestEnvelope.requestEnvelope.request.type === 'LaunchRequest'
+            && year && month && day;
+    },
+    handle(handlerInput) {
+        const attributesManager = handlerInput.attributesManager;
+        const sessionAttributes = attributesManager.getSessionAttributes() || {};
+        
+        const year = sessionAttributes.hasOwnProperty('year') ? sessionAttributes.year : 0;
+        const month = sessionAttributes.hasOwnProperty('month') ? sessionAttributes.year : 0;
+        const day = sessionAttributes.hasOwnProperty('day') ? sessionAttributes.year : 0;
+        
+        const speakOutput = `Welcome back. It looks like there are X more day until your y-th birthday.`;
+        
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .getResponse();
+    }
+};
+
 const CaptureBirthdayIntentHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'CaptureBirthdayIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const year = handlerInput.requestEnvelope.request.intent.slots.year.value;
         const month = handlerInput.requestEnvelope.request.intent.slots.month.value;
         const day = handlerInput.requestEnvelope.request.intent.slots.day.value;
+        
+        const attributesManager = handlerInput.attributesManager;
+        
+        const birthdayAttributes = {
+            "year": year,
+            "month": month,
+            "day": day
+        };
+        
+        attributesManager.setPersistentAttributes(birthdayAttributes);
+        
+        await attributesManager.savePersistentAttributes();
             
         const speakOutput = `Thanks, I'll remember that you were born ${month} ${day} ${year}.`;
         return handlerInput.responseBuilder
@@ -110,6 +150,21 @@ const ErrorHandler = {
     }
 };
 
+const LoadBirthdayInterceptor = {
+    async process(handlerInput) {
+        const attributesManager = handlerInput.attributesManager;
+        const sessionAttributes = await attributesManager.getPersistentAttributes() || {};
+        
+        const year = sessionAttributes.hasOwnProperty('year') ? sessionAttributes.year : 0;
+        const month = sessionAttributes.hasOwnProperty('month') ? sessionAttributes.year : 0;
+        const day = sessionAttributes.hasOwnProperty('day') ? sessionAttributes.year : 0;
+        
+        if (year && month && day) {
+            attributesManager.setSessionAttributes(sessionAttributes);
+        }
+    }
+};
+
 
 // The SkillBuilder acts as the entry point for your skill, routing all request and response
 // payloads to the handlers above. Make sure any new handlers or interceptors you've
@@ -119,12 +174,16 @@ exports.handler = Alexa.SkillBuilders.custom()
         new persistenceAdapter.S3PersistenceAdapter({bucketName:process.env.S3_PERSISTENCE_BUCKET})
     )
     .addRequestHandlers(
+        HasBirthdayLaunchRequestHandler,
         LaunchRequestHandler,
         CaptureBirthdayIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         SessionEndedRequestHandler,
         IntentReflectorHandler) // make sure IntentReflectorHandler is last so it doesn't override your custom intent handlers
+    .addRequestHandlers(
+        LoadBirthdayInterceptor
+    )
     .addErrorHandlers(
         ErrorHandler)
     .lambda();
