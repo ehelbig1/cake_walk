@@ -5,10 +5,10 @@ const Alexa = require('ask-sdk-core');
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
+        return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = "Hi";
+        const speakOutput = "Hi, welcome to CakeWalk. What is you birthday?";
         const repromptText = "My birthday is November 6th, 2014. What is yours?";
         
         return handlerInput.responseBuilder
