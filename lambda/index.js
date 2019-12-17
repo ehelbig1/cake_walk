@@ -2,18 +2,15 @@
 // Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
 // session persistence, api calls, and more.
 const Alexa = require('ask-sdk-core');
-
-const LaunchRequestHandler = {
+const RequestHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = "Hi, welcome to CakeWalk. What is you birthday?";
-        const repromptText = "My birthday is November 6th, 2014. What is yours?";
-        
+        const speakOutput = 'Hello! Welcome to cake walk. That was a piece of cake! Bye!';
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(repromptText)
+            //.reprompt(speakOutput)
             .getResponse();
     }
 };
@@ -32,7 +29,7 @@ const CaptureBirthdayIntentHandler = {
             .speak(speakOutput)
             .getResponse();
     }
-}
+};
 const HelpIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
