@@ -8,20 +8,26 @@ const LaunchRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Hello! Welcome to cake walk. That was a piece of cake! Bye!';
+        const speakOutput = 'Hello! Welcome to cake walk. What is your birthday?';
+        const repromptText = 'Mine is Nov. 6th, 2014. What is yours?';
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            //.reprompt(speakOutput)
+            .reprompt(repromptText)
             .getResponse();
     }
 };
-const HelloWorldIntentHandler = {
+const CaptureBirthdayIntentHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'HelloWorldIntent';
+            && handlerInput.requestEnvelope.request.intent.name === 'CaptureBirthdayIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'Hello World!';
+        const month = handlerInput.requestEnvelope.request.intent.slots.month.value;
+        const day = handlerInput.requestEnvelope.request.intent.slots.day.value;
+        const year = handlerInput.requestEnvelope.request.intent.slots.year.value;
+        
+        const speakOutput = `Great! I'll remember your birthday is ${month} ${day}, ${year}`;
+        
         return handlerInput.responseBuilder
             .speak(speakOutput)
             //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
