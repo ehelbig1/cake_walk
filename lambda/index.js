@@ -8,7 +8,7 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = "Hi, I'm CakeWalk. What is your birthday";
+        const speakOutput = "Hi";
         const repromptText = "My birthday is November 6th, 2014. What is yours?";
         
         return handlerInput.responseBuilder
