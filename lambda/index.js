@@ -59,6 +59,14 @@ const HasBirthdayLaunchRequestHandler = {
         const currentDate = new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate());
         const currentYear = currentDate.getFullYear();
         
+        // getting the next birthday
+        let nextBirthday = Date.parse(`${month} ${day}, ${currentYear}`);
+        
+        // adjust the nextBirthday by one year if the current date is after their birthday
+        if (currentDate.getTime() > nextBirthday) {
+            nextBirthday = Date.parse(`${month} ${day}, ${currentYear + 1}`);
+        }
+        
         const speakOutput = `Welcome back. It looks like there are X more day until your y-th birthday.`;
         
         return handlerInput.responseBuilder
