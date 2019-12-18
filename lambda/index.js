@@ -52,12 +52,16 @@ const HasBirthdayLaunchRequestHandler = {
             console.log('error', error.message);
         }
         
+        const oneDay = 24*60*60*1000;
+        
         // getting the current date with the time
         const currentDateTime = new Date(new Date().toLocaleString("en-US", {timeZone: userTimeZone}));
-        
         // removing the time from the date because it affects our difference calculation
         const currentDate = new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate());
-        const currentYear = currentDate.getFullYear();
+        let currentYear = currentDate.getFullYear();
+        
+        console.log('currentDateTime:', currentDateTime);
+        console.log('currentDate:', currentDate);
         
         // getting the next birthday
         let nextBirthday = Date.parse(`${month} ${day}, ${currentYear}`);
@@ -65,12 +69,17 @@ const HasBirthdayLaunchRequestHandler = {
         // adjust the nextBirthday by one year if the current date is after their birthday
         if (currentDate.getTime() > nextBirthday) {
             nextBirthday = Date.parse(`${month} ${day}, ${currentYear + 1}`);
+            currentYear++;
         }
         
-        const oneDay = 24*60*60*1000;
-        const diffDays = Math.round(Math.abs((currentDate.getTime() - nextBirthday)/oneDay));
-        
-        const speakOutput = `Welcome back. It looks like there are X more day until your y-th birthday.`;
+        // setting the default speakOutput to Happy xth Birthday!! 
+        // Alexa will automatically correct the ordinal for you.
+        // no need to worry about when to use st, th, rd
+        let speakOutput = `Happy ${currentYear - year}th birthday!`;
+        if (currentDate.getTime() !== nextBirthday) {
+            const diffDays = Math.round(Math.abs((currentDate.getTime() - nextBirthday)/oneDay));
+            speakOutput = `Welcome back. It looks like there are ${diffDays} days until your ${currentYear - year}th birthday.`
+        }
         
         return handlerInput.responseBuilder
             .speak(speakOutput)
