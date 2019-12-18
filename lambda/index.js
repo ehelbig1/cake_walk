@@ -40,6 +40,18 @@ const HasBirthdayLaunchRequestHandler = {
         const month = sessionAttributes.hasOwnProperty('month') ? sessionAttributes.month : 0;
         const day = sessionAttributes.hasOwnProperty('day') ? sessionAttributes.day : 0;
         
+        let userTimeZone;
+        try {
+            const upsServiceClient = serviceClientFactory.getUpsServiceClient();
+            userTimeZone = await upsServiceClient.getSystemTimeZone(deviceId);
+        } catch (error) {
+            if (error.name !== 'ServiceError') {
+                return handlerInput.responseBuilder.speak("There was a problem connecting to the service.").getResponse();
+            }
+            
+            console.log('error', error.message);
+        }
+        
         const speakOutput = `Welcome back. It looks like there are X more day until your y-th birthday.`;
         
         return handlerInput.responseBuilder
