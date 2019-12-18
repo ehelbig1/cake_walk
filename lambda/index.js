@@ -67,6 +67,9 @@ const HasBirthdayLaunchRequestHandler = {
             nextBirthday = Date.parse(`${month} ${day}, ${currentYear + 1}`);
         }
         
+        const oneDay = 24*60*60*1000;
+        const diffDays = Math.round(Math.abs((currentDate.getTime() - nextBirthday)/oneDay));
+        
         const speakOutput = `Welcome back. It looks like there are X more day until your y-th birthday.`;
         
         return handlerInput.responseBuilder
