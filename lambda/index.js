@@ -24,8 +24,8 @@ const HasBirthdayLaunchRequestHandler = {
         const sessionAttributes = attributesManager.getSessionAttributes() || {};
         
         const year = sessionAttributes.hasOwnProperty('year') ? sessionAttributes.year : 0;
-        const month = sessionAttributes.hasOwnProperty('month') ? sessionAttributes.year : 0;
-        const day = sessionAttributes.hasOwnProperty('day') ? sessionAttributes.year : 0;
+        const month = sessionAttributes.hasOwnProperty('month') ? sessionAttributes.month : 0;
+        const day = sessionAttributes.hasOwnProperty('day') ? sessionAttributes.day : 0;
         
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest'
             && year && month && day;
@@ -35,8 +35,8 @@ const HasBirthdayLaunchRequestHandler = {
         const sessionAttributes = attributesManager.getSessionAttributes() || {};
         
         const year = sessionAttributes.hasOwnProperty('year') ? sessionAttributes.year : 0;
-        const month = sessionAttributes.hasOwnProperty('month') ? sessionAttributes.year : 0;
-        const day = sessionAttributes.hasOwnProperty('day') ? sessionAttributes.year : 0;
+        const month = sessionAttributes.hasOwnProperty('month') ? sessionAttributes.month : 0;
+        const day = sessionAttributes.hasOwnProperty('day') ? sessionAttributes.day : 0;
         
         const speakOutput = `Welcome back. It looks like there are X more day until your y-th birthday.`;
         
