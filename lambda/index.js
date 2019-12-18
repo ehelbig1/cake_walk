@@ -30,7 +30,7 @@ const HasBirthdayLaunchRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest'
             && year && month && day;
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const serviceClientFactory = handlerInput.serviceClientFactory;
         const deviceId = Alexa.getDeviceId(handlerInput.requestEnvelope);
         const attributesManager = handlerInput.attributesManager;
