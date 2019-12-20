@@ -47,11 +47,21 @@ Initialize a new git repository
 Add a remote repository
 `git remote add origin {project repository}`
 
+Save new skill.json
+`git add skill.json`
+`git ci -m "Saving skill.json`
+
 Fetch the current code from the repository.
 `git fetch`
 
 Reset repository history
 `git reset --hard origin/master`
+
+Get stored skill.json
+`git reflog` - make note of the commit hash
+`git co origin/master -- skill.json`
+
+Add skill.json to .gitignore
 
 Work with normal git flow.
 
