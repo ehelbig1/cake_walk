@@ -1,33 +1,60 @@
-# Build An Alexa Hello World Skill
-<img src="https://m.media-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/quiz-game/header._TTH_.png" />
+# Alexa Skill Development
 
-### This is a simple tutorial to introduce a simple Alexa skill and code.
+[ASK-CLI Documentation](https://developer.amazon.com/en-US/docs/alexa/smapi/quick-start-alexa-skills-kit-command-line-interface.html)
 
-## Skill Architecture
-Each skill consists of two basic parts, a front end and a back end.
-The front end is the voice interface, or VUI.
-The voice interface is configured through the voice interaction model.
-The back end is where the logic of your skill resides.
+## ASK-CLI
 
-## Three Options for Skill Setup
-There are a number of different ways for you to setup your skill, depending on your experience and what tools you have available.
+To install ASK-CLI run
+`npm install -g ask-cli`
 
- * If this is your first skill, choose the [Alexa-Hosted backend instructions](./instructions/setup-vui-alexa-hosted.md) to get started quickly.
- * If you want to manage the backend resources in your own AWS account, you can follow the [AWS-Hosted instructions](./instructions/setup-vui-aws-hosted.md).
- * Developers with the ASK Command Line Interface configured may follow the [ASK CLI instructions](./instructions/cli.md).
+You will need to have an AWS account and an IAM user with the correct permissions (call these out later).
 
----
+You will need:
+- Access Key
+- Secret Access Key
 
-## Additional Resources
+From this account in order to configure the ASK-CLI.
 
-### Community
-* [Amazon Developer Forums](https://forums.developer.amazon.com/spaces/165/index.html) - Join the conversation!
-* [Hackster.io](https://www.hackster.io/amazon-alexa) - See what others are building with Alexa.
+If you've already set up the AWS-CLI then you can find these credentials in ~/.aws/credentials.
 
-### Tutorials & Guides
-* [Voice Design Guide](https://developer.amazon.com/designing-for-voice/) - A great resource for learning conversational and voice user interface design.
-* [Codecademy: Learn Alexa](https://www.codecademy.com/learn/learn-alexa) - Learn how to build an Alexa Skill from within your browser with this beginner friendly tutorial on Codecademy!
+These credentials can also be found in the AWS Console.
+- Navigate to the IAM service
+- Select Users from the left menu
+- Create a new Access Key (The Secret Access Key is only accessible immediately after creating a new Access Key)
+	- This will present you with the new Access Key and Secret Access Key
 
-### Documentation
-* [Official Alexa Skills Kit Node.js SDK](https://www.npmjs.com/package/ask-sdk) - The Official Node.js SDK Documentation
-*  [Official Alexa Skills Kit Documentation](https://developer.amazon.com/docs/ask-overviews/build-skills-with-the-alexa-skills-kit.html) - Official Alexa Skills Kit Documentation
+### Initialization
+
+To set up/initialize ASK-CLI, run
+`ask init`
+
+The first time you run this you will be redirected to your browser to allow access to your account.
+You will then be asked for the Access Key and Secret Access Key of a user on you AWS account (mentioned above)
+
+## Source Control
+
+Each developer should have their own AWS account and Alexa Console.
+
+When first joining the project, the developer should setup the ASK-CLI and then create a new project by runninng
+`ask new`  
+
+Delete current git repository
+`rm -rf .git`
+
+Initialize a new git repository
+`git init`
+
+Add a remote repository
+`git remote add origin {project repository}`
+
+Fetch the current code from the repository.
+`git fetch`
+
+Reset repository history
+`git reset --hard origin/master`
+
+Work with normal git flow.
+
+When you have changes ready to test run
+`ask deploy`
+
